@@ -1,0 +1,753 @@
+1538 IEEE TRANSACTIONS ON CYBERNETICS, VOL. 46, NO. 7, JULY 2016Dynamic Neural Networks for KinematicRedundancy Resolution of ParallelStewart PlatformsAquil Mirza Mohammed and Shuai Li, Member, IEEEAbstract —Redundancy resolution is a critical problem in thecontrol of parallel Stewart platform.
+
+ The redundancy endowsus with extra design degree to improve system performance.
+
+In this paper, the kinematic control problem of Stewart platforms is formulated to a constrained quadratic programming.
+
+The Karush–Kuhn–Tucker conditions of the problem is obtainedby considering the problem in its dual space, and then a dynamicneural network is designed to solve the optimization problemrecurrently.
+
+ Theoretical analysis reveals the global convergenceof the employed dynamic neural network to the optimal solution in terms of the deﬁned criteria.
+
+ Simulation results verify theeffectiveness in the tracking control of the Stewart platform fordynamic motions.
+
+Index Terms —Constrained quadratic programming, kinematicredundancy, recurrent neural networks, Stewart platform.
+
+I.
+
+ I NTRODUCTIONKINEMATICALLY redundant manipulators are referredto those which have more degreesoffreedom (DOFs)than required to determine the position and orientation.
+
+ Theredundancy of parallel manipulators can be utilized to overcome the obstacles, singularities , increasing workspace,improving dexterity and to optimize the performance and toachieve a smooth endeffector motion task .
+
+ As redundantrobots have more DOF than required, there usually exist multiple solutions for kinematic control, which motivates us forthe consideration of exploiting the extra DOFs to improve thecontrol performance.
+
+The inverse kinematics problem is one of the fundamentaltasks in understanding the operability of parallel manipulators, i.
+
+e.
+
+, to ﬁnd the actuator inputs, provided the desiredendeffector trajectories.
+
+ Conventional design of the parallelmechanisms often encounter singularity problem.
+
+ The designof redundancy in parallel mechanism often provides a effective remedy.
+
+ Liu et al.
+
+  proposed a new 3DOF symmetricspherical 3universal, prismatic, and spherical joints/S parallel mechanism with three prismatic actuators, and studied theIndex Terms —Constrained quadratic programming, kinematicredundancy, recurrent neural networks, Stewart platform.
+
+I.
+
+ I NTRODUCTIONKINEMATICALLY redundant manipulators are referredto those which have more degreesoffreedom (DOFs)than required to determine the position and orientation.
+
+ Theredundancy of parallel manipulators can be utilized to overcome the obstacles, singularities , increasing workspace,improving dexterity and to optimize the performance and toachieve a smooth endeffector motion task .
+
+ As redundantrobots have more DOF than required, there usually exist multiple solutions for kinematic control, which motivates us forthe consideration of exploiting the extra DOFs to improve thecontrol performance.
+
+The inverse kinematics problem is one of the fundamentaltasks in understanding the operability of parallel manipulators, i.
+
+e.
+
+, to ﬁnd the actuator inputs, provided the desiredendeffector trajectories.
+
+ Conventional design of the parallelmechanisms often encounter singularity problem.
+
+ The designof redundancy in parallel mechanism often provides a effective remedy.
+
+ Liu et al.
+
+  proposed a new 3DOF symmetricspherical 3universal, prismatic, and spherical joints/S parallel mechanism with three prismatic actuators, and studied theManuscript received November 11, 2014; revised March 24, 2015 andMay 16, 2015; accepted June 26, 2015. Date of publication July 24, 2015;date of current version June 14, 2016. This work was supported in part bythe NSFC under Grant 61401385 and in part by Hong Kong RGC ECS underGrant 25214015. This paper was recommended by Associate Editor Y . Xia.(Corresponding author: Shuai Li.)The authors are with Department Computing, Hong Kong PolytechnicUniversity, Hong Kong 07030 (email: csmaquil@comp.polyu.
+
+edu.
+
+hk ;shuaili@polyu.edu.hk ).Color versions of one or more of the ﬁgures in this paper are availableonline at http://ieeexplore .
+
+ieee.
+
+org.
+
+Digital Object Identiﬁer 10.1109/TCYB.2015.2451213kinematics, statics, and workspace of the mechanism. In , a2(spherical prismatic and prismatic joints +spherical prismatic,prismatic, and revolute joints +spherical prismatic, prismatic,and universal joints) serialparallel manipulators was considered.
+
+ Based on the analysis, they designed three new typesof kinematically redundant parallel mechanisms, including anew redundant 7DOF Stewart platform.
+
+ In , the dampedleast square method was utilized to tackle singularity problem.
+
+ However, it only modiﬁes the endeffector path in termsof velocity.
+
+ It was shown in  that it is important to analyzethe inverse dynamic of parallel manipulators to ﬁnd the jointfriction and actuator dynamics.
+
+Soft computing techniques, including neural networks –, fuzzy logic , , and geneticalgorithm ,  have been extensive used for scientiﬁc computation, robotic control, and modeling.
+
+ Due to theoutstanding performance in parallel processing and recursivecomputation, dynamic neural networks, as a special type ofneural networks, have long been employed as a powerful toolfor the control of conventional serial robot arms.
+
+ In ,an adaptive recurrent neural network was employed for thecontrol of a mobile manipulator with unknown dynamics.
+
+ Itwas shown that the control strategy guarantees the asymptotical convergence to the desired motion.
+
+ In , a uniﬁedquadraticprogrammingbased dynamical system approachwas proposed to optimize the joint torque of serial manipulators.
+
+ A minimumenergy redundancy resolution methodologywas proposed in  for the recurrent neural networkscontrol of serial manipulators.
+
+ Periodic oscillations of thevarious neural networks were reported in this paper.
+
+ In orderto reduce the network complexity and further increase thecomputational efﬁciency, Xia and Jun  introduced a singlelayered dual neural network for the control of kinematicallyredundant manipulators.
+
+ In  and , the recurrent neuralnetwork approach was extended to solve the cooperation ofmultiple manipulators organized in a distributed network.
+
+Theoretical investigation of new types of neural models,and the applications of them to various realworld problemsalso experienced intensive research attention in past years.
+
+A simpliﬁed dual neural network architecture was proposedin  to reduce the structural complexity of conventional dualneural networks.
+
+ In , dissipativity and stability propertieswere theoretically analyzed for a new type of memristorbasedrecurrent neural networks with timevarying delays.
+
+ The synchronization of coupled neural networks in the presence of21682267 c/circlecopyrt2015 IEEE. Personal use is permitted, but republication/redistribution requires IEEE permission.Seehttp://www.ieee.org/publications_standards/publications/rights/index.html for more information.
+
+delayed feedback was discussed in .
+
+ A complete review onstability analysis of various continuoustime recurrent neuralnetworks was presented in .
+
+ The generalization of realvalued recurrent neural networks to complexvalued neuraldynamical approach was made in .
+
+ This approach signiﬁcantly reduces redundant computation in a double realvaluedspace and features a low model complexity and storagecapacity.
+
+ In , the problem of blind data fusion wasexplored using a novel L2norm estimation method.
+
+ Likemost recent work on recurrent neural networks, this methodalso relies on an continuous dynamic model with a piecewise linear function as the activation function.
+
+ A discretetimerecurrent neural network was proposed in  to solve constrained optimization problems with the presence of L1normin the objective function, and was successfully applied toimage restoration.
+
+In spite of the great success of dynamic neural networksin both theory and application, there is rare report on usingdynamic neural network to address the kinematic resolution problem of Stewart platform.
+
+ In this paper, we makeprogress along this direction.
+
+ The problem is formulatedto a constrained quadratic programming in this paper.
+
+ TheKarush–Kuhn–Tucker (KKT) conditions of the problem isobtained by considering the problem in its dual space, andthen we design a dynamic neural network to solve this problem recurrently.
+
+ Due to the formulation of the problem froman optimization perspective, optimality in movement can bedirectly reached.
+
+ Actually, for the Stewart platform, its forward kinematics are highly nonlinear and heavily coupled,which impose great challenges to the neural dynamic design toreach the same control goal.
+
+ Additionally, due to the modelingof constraints as inequalities in the optimization problem, theobtained solution is direct in compliance with the physicalconstraints.
+
+ Using convergence theories on projected neural networks, the global convergence of this dynamic neuralnetwork to the optimal solution is also proved rigorously.
+
+Simulation results veriﬁes the effectiveness in the trackingcontrol of the Stewart platform for dynamic motions.
+
+ The contributions of this paper are threefold: ﬁrst, to the best of ourknowledge, this is the ﬁrst attempt of using dynamic neural networks for kinematic redundancy resolution of parallelStewart platforms.
+
+ Second, in this paper, both minimizationof the energy consumption and feasibility of physical constraints are taken into account.
+
+ Accordingly, the obtainedsolution is both optimal and feasible.
+
+ This is in contrast toother control methodology, which usually cannot guaranteethe control action is within a feasible set.
+
+ Third, differentfrom feedforward neural network, which usually suffer fromlocal optimality, the dynamic neural approach employed in thispaper is globally optimal.
+
+The remainder of this paper is organized into eight sections.
+
+Section II describes the preliminaries of the Stewart platform.
+
+ Section III provides the background information on therobotic kinematics of the constrained manipulators.
+
+ Section IVdescribes the problem formulation as constrained optimization for the physically constrained manipulators.
+
+ Section Vprovides a dynamic neural network model for the kinematicII.
+
+ PRELIMINARIESThe pose (position and orientation) of a rigid body in 3Dspace is uniquely determined by a translation, represented bya 3D vector, and a rotation, represented by a 3 ×3 rotationalmatrix in terms of three Euler angles.
+
+ The rotational matrix/Omega1∈R3×3deﬁned by the Euler angles T∈R3hasthe following property for its time derivative:˙/Omega1/Omega1T=⎡⎣0−˙φz˙φy˙φz 0−˙φx−˙φy˙φx 0⎤⎦. (1)This property holds for all rotational matrices.
+
+ Additionally,the rotational matrix is orthogonal, i.e., /Omega1/Omega1T=I,/Omega1−1=/Omega1Twith Idenoting a 3 ×3 identity matrix.
+
+For two vectors u=T∈ R3and v=T∈ R3, their crossproduct, denoted as “ ×,” isdeﬁned as⎡⎣u1u2u3⎤⎦×⎡⎣v1v2v3⎤⎦=⎡⎣u2v3−u3v2u3v1−u1v3u1v2−u2v1⎤⎦. (2)The triple product of three vectors in 3D space isdeﬁned based on the cross product.
+
+ For three vectors u=T∈ R3,v=T∈ R3, and w=T∈R3, their triple product is deﬁned as (u×v)Tw,and equals the following in value:(u×v)Tw=det⎡⎣uTvTwT⎤⎦. (3)The triple product is invariant under circular shifting(u×v)Tw=(v×w)Tu=(w×u)Tv. (4)The matrix on the righthand side in ( 1)i sa3 ×3s k e w symmetric matrix.
+
+ For a general 3 ×3 skewsymmetric matrix,as can be simply veriﬁed, always holds for any x,y,z∈R,α=T∈R3⎡⎣0−zyz 0−x−yx 0⎤⎦α=⎡⎣xyz⎤⎦×α. (5)Due to the above relation, it is common to use T×torepresent a 3D skewsymmetric matrix as⎡⎣0−zyz 0−x−yx 0⎤⎦α=⎡⎣xyz⎤⎦×. (6)III. R OBOT KINEMATICSThe Stewart platform is a typical parallel mechanism andcan be extended to different forms by modifying its mechanisms.
+
+ It includes a mobile platform on the top as shown inFig. 1. Schematic of the Stewart platform.Fig. 1, a ﬁxed base, and six independent driving legs connecting the aforementioned two parts.
+
+ The two ends of each leg areﬁxed on the mobile platform and the ﬁxed based, respectively,using universal joints.
+
+ Each leg can be actuated to changeits length for the adjustment of the distance between the twoﬁxed points on the platform and the base.
+
+ All together, the sixlegs collaborates to adjust the orientation and position of themobile platform by changing their lengths.
+
+A.
+
+ Geometric RelationFor the Stewart platform, the global coordinate is ﬁxed onthe base and the platform coordinate is ﬁxed on the mobileplatform. ai∈R3fori=1,2,..., 6 represents the positionin global coordinates of the ith connection point on the base.b/primei∈R3fori=1,2,..., 6 represents the position in platformcoordinates of the ith connection point on the platform.
+
+ We usebito represents its position in the global coordinate, as shownin Fig. 1.di=bi−aifori=1,2,..., 6 represents the vectorcorresponding to the ith leg, which points from the base tothe platform.
+
+ For a point x/prime∈R3in the platform coordinate,its position x∈R3in global coordinate is obtained after arotational and translational transformationx=p+Qx/prime(7)where p=T∈R3is the global coordinate of thezero position in the platform coordinate, and it correspondsto the translational transformation, Q∈ R3×3is the rotational matrix, which is uniquely deﬁned by the Euler anglesθ=T∈R3Q=QzQyQxQx=⎡⎣10 00 cos θx sinθx0−sinθxcosθx⎤⎦Qy=⎡⎣cosθy0−sinθy01 0sinθy0 cos θy⎤⎦Qz=⎡⎣cosθz sinθz0−sinθycosθy000 1⎤⎦. (8)Following ( 7), as to the ith connection point on the platform,i.
+
+e.
+
+, the ones with x=biin the global coordinates or the oneswith x/prime=b/primeiin the platform coordinates, we have:bi=p+Qb/primei.di=bi−ai=p+Qb/primei−ai. (10)For the vector di, we deﬁne ri=/bardbldi/bardblto represent its length.
+
+Accordingly, we haveri=/vextenddouble/vextenddoublep+Qb/primei−ai/vextenddouble/vextenddouble. (11)Notice that both aiandbiare constants and are determinedby the geometric structure.
+
+ p=Tdeﬁnes the translation of the platform, and Qas a function of the Euler anglesθ=T, deﬁnes the rotation of the platform.
+
+ Overall,the righthand side of ( 11) depends on the pose variables ofthe platform π=T∈R6while the lefthand side of ( 11) is the length of the leg, which is controlledfor actuation.
+
+ In this sense, ( 11)f o r i=1,2,..., 6 deﬁnes thekinematic relation between the actuation variables and the posevariables.
+
+ For a sixdimensional reference pose, the desired leglength rican be directly obtained from ( 11). However, in realapplications, the reference are usually not sixdimensional.
+
+ Forexample, for surgical applications of Stewart platform, people may only care about the position of an endeffector onthe platform, instead of its orientation.
+
+ In this situation, thereference is 3D and we have three additional DOF as redundancy.
+
+ For such a situation, we usually have inﬁnite numberof feasible solutions of rifori=1,2,..., 6 to reach thereference.
+
+ Among the feasible solutions, we may be able toidentify one, which outperforms others in terms of certain optimization criteria.
+
+ This intuitive analysis motivate us to modelit as an optimization problem and identify the optimal onefor improved performance.
+
+ However, due to the nonlinearity of ( 11), direct treatment of ( 11) is technically prohibitive.
+
+Instead of direct solution in position space, we turn to solvethe problem in its velocity space to exploit the approximatelinearity.
+
+B.
+
+ Velocity Space ResolutionFor easy treatment, ( 11) is rewritten asr2i=/parenleftbigp+Qb/primei−ai/parenrightbigT/parenleftbigp+Qb/primei−ai/parenrightbig. (12)To obtain the velocity space relations, we ﬁrst compute timederivative on both sides of ( 12), which yieldsri˙ri=/parenleftbigp+Qb/primei−ai/parenrightbigT/parenleftbig˙p+˙Qb/primei+Q˙b/primei−˙ai/parenrightbig=/parenleftbigp+Qb/primei−ai/parenrightbigT/parenleftbig˙p+˙Qb/primei/parenrightbig. (13)Recall that both aiandb/primeiare constants and their time derivatives, ˙aiand˙b/primei, equal to zero.
+
+ For the rotational matrix Q,according to the preliminary equations ( 1) and ( 6), it has thefollowing property for its time derivative:˙QQT=⎡⎣0−˙θz˙θy˙θz 0−˙θx−˙θy˙θx 0⎤⎦=⎡⎣˙θx˙θy˙θz⎤⎦×=˙θ×.(14)Therefore, ˙Qwrites as follows:˙Q=˙θ×/parenleftbigQT/parenrightbig−1=˙θ×Q. (15)ri˙ri=/parenleftbigp+Qb/primei−ai/parenrightbigT/parenleftbig˙p+˙θ×Qb/primei/parenrightbig=dTi/parenleftbig˙p+˙θ×Qb/primei/parenrightbig=dTi˙p+/parenleftbig/parenleftbig˙θ×/parenleftbigQb/primei/parenrightbig/parenrightbigTdi=dTi˙p+/parenleftbig/parenleftbigQb/primei/parenrightbig×di/parenrightbigT˙θ=/bracketleftBigdTi/parenleftbig/parenleftbigQb/primei/parenrightbig×di/parenrightbigT/bracketrightBig/bracketleftbigg˙p˙θ/bracketrightbigg. (16)In the above equation, ( 10) and ( 4) are used for the derivation in the second line and the derivation in the second lastline, respectively.
+
+ Noticing that ri=/bardbldi/bardbl>0 could be guaranteed by the mechanical structure, we have the followingresult:˙ri=1ri/bracketleftBigdTi/parenleftbig/parenleftbigQb/primei/parenrightbig×di/parenrightbigT/bracketrightBig/bracketleftbigg˙p˙θ/bracketrightbigg=1ri/bracketleftBigdTi/parenleftbig/parenleftbigQb/primei/parenrightbig×di/parenrightbigT/bracketrightBig˙π. (17)For the sixdimensional vector r=T,w eh a v ethe compact matrix form as follows:˙r=A1˙π (18)whereA1=⎡⎢⎢⎢⎣1r1dT11r1/parenleftbig/parenleftbigQb/prime1/parenrightbig×d1/parenrightbigT1r2dT21r2/parenleftbig/parenleftbigQb/prime2/parenrightbig×d2/parenrightbigT··· ···1r6dT61r6/parenleftbig/parenleftbigQb/prime6/parenrightbig×d6/parenrightbigT⎤⎥⎥⎥⎦=⎡⎢⎢⎢⎣1r1/parenleftbigp+Qb/prime1−a1/parenrightbigT 1r1/parenleftbig/parenleftbigQb/prime1/parenrightbig×(p−a1)/parenrightbigT1r2/parenleftbigp+Qb/prime2−a2/parenrightbigT 1r2/parenleftbig/parenleftbigQb/prime2/parenrightbig×(p−a2)/parenrightbigT··· ···1r6/parenleftbigp+Qb/prime6−a6/parenrightbigT 1r6/parenleftbig/parenleftbigQb/prime6/parenrightbig×(p−a6)/parenrightbigT⎤⎥⎥⎥⎦.(19)Equation ( 18) gives the kinematic relation of a sixDOFStewart platform from the velocity of the pose variables tothe speed of the legs.
+
+IV .
+
+ PROBLEM FORMULATION ASCONSTRAINED OPTIMIZATIONCompared to ( 11) and ( 18) signiﬁcantly simpliﬁes the problem as ˙rin (18) is now afﬁne to the ˙πwhile the relationbetween riandπ(orpandQ)i n( 11) are nonlinear, or evennonconvex to the pose variables.
+
+ Similar to our analysis before,in the case that the reference pose velocity is given in sixdimensions, the solution of ˙rcan be solved directly from ( 18).However, in the situation that the reference pose velocity isdescribed in lower dimensions that six, the extra redundanciesare available to reach improved performance.
+
+ The followingequality model the reference velocity constraint in reduceddimensions:α=A2˙π6i sp r e given, the matrix A2∈Rm×6is the transformation matrix andis also pregiven.
+
+ As an example, if we would like to maintainthe platform at a given height, i.e., ˙pz=0, we set α=0 withm=1 and A2=Tin (20) .D u et ot h ee x t r adesign freedom, the value of ˙πusually cannot be uniquelysolved from ( 20). We thus deﬁne the following criteria tooptimize the solution:min(˙π,τ)12˙πT/Lambda11˙π+12τT/Lambda12τ (21)where /Lambda11∈R6×6and/Lambda12∈R6×6are both symmetric constant matrices and are both positive deﬁnite, τ=˙ris thecontrollable speed of the platform legs.
+
+ In application, the term˙πT/Lambda11˙πcan be used to specify the kinematic energy (including translational kinetic energy and rotational kinetic energy)by choosing proper weighting matrix /Lambda11(say choosing /Lambda11asone formed from the mass of the platform and its moment ofinertia for the kinematic energy case), and the term τT/Lambda12τcharacters the input power consumed by the robotic system.
+
+This objective function also follows the convention of controltheory .
+
+ The decision variable τ, which is controlled bythe actuators, is subjected to physical constraints.
+
+ In this paper,we model the physical constraints as linear inequalities in thefollowing form:Bτ≤b (22)where B∈Rk×6andb∈Rkwith kbeing an integer.
+
+ Note thatconstraints are not imposed to the variable ˙πsince its valueusually is speciﬁed as a feasible one in the planning stage.
+
+In summary of ( 21) as the object function, ( 18) as the mapping relation, ( 20) to fulﬁl the reference tracking requirements,and ( 22) as physical constraints, we can formulate the kinematic control problem of the Stewart platform as the followingconstrained programming:min(˙π,τ)12˙πT/Lambda11˙π+12τT/Lambda12τ (23a)s.t.τ=A1˙π (23b)α=A2˙π (23c)Bτ≤b. (23d)Due to the presence of both equation and inequality constraints in the optimization problem ( 23), usually it cannotbe solved analytically.
+
+ Conventional approaches introducesextra penalty terms formed by the constraints to the objective function and solve the problem numerically using gradientdescent along the new objective function.
+
+ However, penaltybased approaches only reaches an approximate solution of theproblem and thus are not suitable for errorsensitive applications.
+
+ Instead of using this approximate approach, in thenext section, we will propose a dynamic neural networksolution, which asymptotically converges to the theoreticalsolution.
+
+V.
+
+ DYNAMIC NEURAL NETWORK MODELIn this section, we ﬁrst consider the optimization problem ( 23) in its dual space and then present a neural network tosolve it dynamically.
+
+ After that, we investigate the hardwarerealization of the proposed model.
+
+A.
+
+ Neural Network DesignAccording to the KKT conditions , the solution ofproblem ( 23) satisﬁes/Lambda11˙π−AT1λ1−AT2λ2=0 (24a)/Lambda12τ+λ1+BTμ=0 (24b)τ=A1˙π (24c)α=A2˙π (24d)/braceleftBiggμ> 0i f Bτ=bμ=0i f Bτ< b(24e)where λ1∈ R6,λ2∈ Rm(mis the number of rows inmatrix A2), and μ∈R6are dual variables to the equationconstraint ( 23b), the equation constraint ( 23c) and the inequality constraint ( 23d), respectively.
+
+ The expression ( 24e) can besimpliﬁed toμ=(μ+Bτ−b)+(25)where the nonlinear mapping “ (·)+” is a function which mapsnegative values to zero and nonnegative values to themselves.From ( 24a),˙πcan be solved as˙π=/Lambda1−11/parenleftbigAT1λ1+AT2λ2/parenrightbig. (26)Substituting ˙πin (26)t o( 24c) and ( 24d) yieldsτ=A1/Lambda1−11/parenleftbigAT1λ1+AT2λ2/parenrightbig(27)α=A2/Lambda1−11/parenleftbigAT1λ1+AT2λ2/parenrightbig. (28)To eliminate τ, we ﬁrst represent it in terms of λ1andμaccording to ( 24b)a sτ=−/Lambda1−12/parenleftbigλ1+BTμ/parenrightbig(29)then substitute ( 29)i n t o( 24c) and ( 27), which results in−/Lambda1−12/parenleftbigλ1+BTμ/parenrightbig=A1/Lambda1−11/parenleftbigAT1λ1+AT2λ2/parenrightbig(30)μ=/parenleftBigμ−B/Lambda1−12λ1−B/Lambda1−12BTμ−b/parenrightBig+. (31)We use the following dynamics for the solutions of λ1,λ2,andμin (28), (30), and ( 31):/epsilon1˙λ1=−/Lambda1−12/parenleftbigλ1+BTμ/parenrightbig−A1/Lambda1−11/parenleftbigAT1λ1+AT2λ2/parenrightbig/epsilon1˙λ2=−A2/Lambda1−1AT1λ1−A2/Lambda1−1AT2λ2+α/epsilon1˙μ=−μ+/parenleftBigμ−B/Lambda1−12λ1−B/Lambda1−12BTμ−b/parenrightBig+(32)where /epsilon1>0 is a scaling factor.
+
+ Overall, the proposed dynamicneural network has λ1,λ2, and μas state variables andτin (27) as the output, which is expressed as follows insummary.
+
+State equations/epsilon1˙λ1=−/Lambda1−12λ1−A1/Lambda1−11AT1λ1−A1/Lambda1−11AT2λ2−/Lambda1−12BTμ (33a)/epsilon1˙λ2=−A2/Lambda1−1AT1λ1−A2/Lambda1−1AT2λ2+α (33b)/epsilon1˙μ=−μ+/parenleftBig−B/Lambda1−12λ1+μ−B/Lambda1−12BTμ−b/parenrightBig+.(33c)Fig. 2. Two layer neural network architecture.
+
+Output equationτ=A1/Lambda1−11AT1λ1+A1/Lambda1−11AT2λ2. (33d)About the proposed neural network model ( 33)f o rt h ekinematic redundancy resolution problem ( 23) of parallelmanipulator, we have the following remark.Remark 1: Fig. 2shows the architecture of the proposedmodel, for the situation with m=3,k=4(mis the dimensionofα,kis the number of rows of matrix B). From this ﬁgure,it is clear that this neural network ( 33) is organized in a twolayer architecture.
+
+ The ﬁrst layer(feedback layer), which iscomposed of 6 +m+kneurons, is a nonlinear layer withdynamic feedback.
+
+ This layer of neurons is associated with thestate variables λ1∈R6,λ2∈Rm, andμ∈Rk, and get inputfrom the input variable α.
+
+ It follows ( 33a), (33b), and ( 33c)f o rdynamic updates.
+
+ The second layer (output layer) is a staticlayer with linear mapping as described by ( 33d). It consists ofsix neurons and maps the state variables to the output, whichis the platform leg speed τ.
+
+In comparison with various feedforward neural networkmodels, such backpropagation neural network, radial basisfunction neural network, extreme learning machine, the neural network investigated in this paper falls into the category of recurrent neural networks with dynamic feedbacks.
+
+Different from the Kennedy–Chua network , which represent constraints as a extra penalty, the neural networkmodel of this paper consider the problem in its dual spaceand is able to reach optimal solution.
+
+ The general purposeprojected neural network  only has a dynamic layer,while the neural network employed in this paper is organized in a twolayer structure, where the ﬁrst layer is adynamic layer with selffeedback, and the second layer isa static one.
+
+ Projected neural networks are widely used tosolve kinematic control of redundant serial manipulators.
+
+ Thedynamic neural network employed in  to solve kinematicredundancy in robot motion control also has a twolayeredarchitecture.
+
+ However, in that model, the hidden layer nodeshas an alltoall connection, while the hidden nodes arepartitioned into three cliques in the neural model used inthis paper, where neurons in each clique are connected inan alltoall manner but the connections between differentcliques are local (e.g., the clique associated with the statevariable μis not connected with that associated with thestate variable λ2). The property of the local connectivitybetween hidden cliques also distinguish this model fromother ones using dynamic neural networks for manipulatorcontrol , , .
+
+VI.
+
+ T HEORETICAL RESULTSIn this section, we present theoretical results on the proposed neural networks for solving the redundancy resolutionproblem of parallel manipulators.
+
+A.
+
+ OptimalityIn this part, we show the equilibrium point of the dynamicneural networks ( 33) ensures that the corresponding outputτgiven by ( 33d) is identical to the optimal solution ofthe problem ( 23). On this point, we have the followingtheorem.Theorem 1: Suppose (λ∗1,λ∗2,μ∗)is the equilibrium pointof the dynamic neural network ( 33). Then the correspondingoutput τ∗obtained from the output equation ( 33d) is optimalto the constrained programming problem ( 23).Proof: Letting the righthand sides of the state equations ( 33a), (33b), and ( 33c) equal to zero, we ﬁndthe following conditions about the equilibrium point(λ∗1,λ∗2,μ∗):−/Lambda1−12λ∗1−A1/Lambda1−11AT1λ∗1−A1/Lambda1−11AT2λ∗2−/Lambda1−12BTμ∗=0(34)−A2/Lambda1−1AT1λ∗1−A2/Lambda1−1AT2λ∗2+α=0 (35)−μ∗+/parenleftBig−B/Lambda1−12λ∗1+μ∗−B/Lambda1−12BTμ∗−b/parenrightBig+=0 (36)and the corresponding output isτ∗=A1/Lambda1−11AT1λ∗1+A1/Lambda1−11AT2λ∗2. (37)Deﬁne an auxiliary value˙π∗=/Lambda1−1AT1λ∗1+/Lambda1−1AT2λ∗2. (38)To show that τ∗is optimal to ( 23), we only need to showthat (λ∗1,λ∗2,μ∗,τ∗,˙π∗) satisfy the KKT condition ( 24)o fthe optimization problem ( 23), or equivalently the equationset composed of ( 26)–(28), (30), and ( 31) according to theanalysis in Section VA, we can conclude that the equationset composed of ( 26)–(28), (30), and ( 31) is equivalent tothe KKT condition ( 24). Comparing the equation set composed of ( 34)–(38), and the one composed of ( 26)–(28), (30),and ( 31), we ﬁnd that they are identical and therefore areequivalent.
+
+ The above procedure implies that the solution(λ∗1,λ∗2,μ∗,τ∗,˙π∗) is optimal to ( 23). Therefore, we concludethatτ∗is optimal to the problem ( 23).B. StabilityIn this part, we present theoretical results on the stability ofthe proposed dynamic neural network model.
+
+ In Section VIA ,we have concluded that the equilibrium point of the neuralnetwork ( 33) is optimal solution of ( 23). Generally speaking, a dynamic system may not converge to its equilibriumpoints.
+
+ It may happen for a dynamic system to evolve towarddivergence, oscillation, or even chaos.
+
+ It is necessary forthe proposed neural network to converge for effective computation purpose.
+
+ Before presenting the convergence results,we ﬁrst present a lemma about a general projected dynamicsystem as˙u=−u+P/Omega1(u−F(u)) (39)where μ∈Rl,/Omega1is a closed convex set of Rl,P/Omega1(·)is theprojection operator onto the set /Omega1.Lemma 1 :If∇F(u)is symmetric and positive semideﬁnite in Rl, then the dynamic system ( 39) is stable in thesense of Lyapnov and is globally convergent to its equilibrium.
+
+The above lemma gives a general convergence results ondynamic systems with the presence of projection operators.
+
+In our system, the operator (·)+is also a projection operator, which projects input values to nonnegative ones.
+
+ WithLemma 1, it is provable for the following stability results onthe proposed model ( 33).Theorem 2: The dynamic neural network ( 33) is stable inthe sense of Lyapunov and is globally convergent to theoptimal solution of ( 23).Proof: As we have proved that the output τassociatedwith the equilibrium points is optimal to problem ( 23)i nTheorem 1, to draw the conclusion in this theorem we onlyneed to show the convergence of ( 33) to its equilibrium points.
+
+To leverage the results presented in Lemma ( 1), we ﬁrst convert ( 33)i n t oas i m i l a rf o r ma s( 39). Deﬁne a vector functionF=[FT1,FT2,FT3]T, with F1–F3deﬁned as follows:F1=/Lambda1−12λ1+A1/Lambda1−11AT1λ1+A1/Lambda1−11AT2λ2+/Lambda1−12BTμF2=A2/Lambda1−11AT1λ1+A2/Lambda1−1AT2λ2−αF3=B/Lambda1−12λ1+B/Lambda1−12BTμ+b (40)and deﬁne a set /Omega1as/Omega1=/braceleftBig(λ1,λ2,μ),λ 1∈R6,λ2∈Rm,μ∈Rk,μ≥0/bracerightBig(41)(a) (b)Fig. 3. Tracking of a circular motion. (a) Trajectory of the endeffector. (b) Time history of the position tracking error.(a)(b)(c) (d)Fig. 4. Time evolution of the Stewart platform state variables in the case of circular motion tracking. (a) Orientation of the platform θ. (b) Position of theendeffector p. (c) Control action τ. (d) Leg length r.where μ≥0 is deﬁned in the piecewise sense.
+
+ We also deﬁnea new variablex=/bracketleftbigλT1λT2μT/bracketrightbigT. (42)With the above deﬁnitions of F,/Omega1, and x, the proposed neuralnetwork ( 33) can be converted as/epsilon1˙x=−x+P/Omega1(x−F(x)). (43)Deﬁne a new time scale φ=t//epsilon1. With the new time scale,/epsilon1˙x=/epsilon1(dx/dt)=dx/dφ, and the neural dynamic ( 43)converts todxdφ=−x+P/Omega1(x−F(x)) (44)which are in the nominal form of the projected dynamicsystems.
+
+ To prove the convergence, we show the symmetricityof∇Fin (40) and its positive semideﬁniteness∇F=⎡⎣/Lambda1−12+A1/Lambda1−11AT1A1/Lambda1−11AT2/Lambda1−12BTA2/Lambda1−11AT1A2/Lambda1−11AT20B/Lambda1−120 B/Lambda1−12BT⎤⎦.(45)Clearly, ∇Fis symmetric.
+
+ As to the positive semideﬁniteness,we decompose ∇Fin (45) into the following form:∇F=⎡⎣A1/Lambda1−11AT1A1/Lambda1−11AT20A2/Lambda1−11AT1A2/Lambda1−11AT2000 0⎤⎦+⎡⎣/Lambda1−120/Lambda1−12BT00 0B/Lambda1−120B/Lambda1−12BT⎤⎦=⎡⎢⎣A1/Lambda1−121A2/Lambda1−1210⎤⎥⎦⎡⎢⎣A1/Lambda1−121A2/Lambda1−1210⎤⎥⎦T+⎡⎢⎣/Lambda1−1220B2/Lambda1−122⎤⎥⎦⎡⎢⎣/Lambda1−1220B2/Lambda1−122⎤⎥⎦.(46)(a)(b)(c)Fig. 5. Time evolution of the neural network state variables in thecase of circular motion tracking.
+
+ Neural network state variables (a) λ1,(b)λ2,a n d( c ) μ.The above expression implies that ∇Fis indeed positive semideﬁnite.
+
+ In summary, as ∇Fdeﬁned in this proof is symmetricand positive semideﬁnite, the dynamic system ( 44), i.e., theproposed neural network ( 33) is stable and is convergent tothe optimal solution of ( 24) according to Lemma 1.C. Comparison With Other Control SchemesIn this part, we compare the proposed method with someexisting control schemes for parallel robotic platform.
+
+In , feedforward neural networkbased approaches,including multilayer perception neural network and radialbasis functions neural network, were employed to learn thenonlinear mapping of the robot in its forward kinematics.
+
+Thanks to the nonlinear approximation power of feedforwardneural networks, the static mapping error can be minimized byfeeding enough training data to the model.
+
+ However, to determine the values on the weights of neural networks, an offlinetraining procedure is necessary before the use of the method.
+
+Additionally, due to the lack of consideration for speed limitsof each actuator, such constraint may not be satisﬁed in realapplication.
+
+ Moreover, due to the existence of remaining trainworkspace.
+
+ Due to the required training procedure, and thestrong dependence of the performance on training data, thismethod also inevitably bears similar limitations as , suchas no compliance to speed limitations, nonoptimality in kinematics.
+
+ Differently, Chen and Fu  considered the kinematicmodel into the design and used sliding mode method for thetracking control of the Stewart platform.
+
+ In comparison withmethods presented in  and , this method is inherentlyan online control scheme, does not require any pretraining,and enjoys a high control precision.
+
+ However, without considering speed constraints, it still lacks compliance to such aphysical restriction in speed.
+
+ In , a fuzzy controller wasdesigned for the online intelligent control of Stewart platforms.
+
+ This controller is able to reach highprecision trackingof signals in the workspace, but may suffer from similar limitations as the sliding modebased approach .
+
+ In contrast,since the method presented in this paper directly considerthe problem as an optimization problem, it reaches the optimal solution accordingly.
+
+ Further, since the speed constraintsare taken into account as inequality constraints in the problem formulation, compliance to constraints are thus achieved.
+
+The comparisons of different methods for kinematic control of Stewart platforms are summarized in Table I,f r o mwhich it is clear to observe the advantage of the dynamicneural networkbased approach for the control of Stewartplatforms.
+
+VII.
+
+ NUMERICAL INVESTIGATIONTo validate the effectiveness of the proposed approach,in this section, we apply the neural network model to theredundancy resolution of a physically constrained Stewartplatform.
+
+A.
+
+ Simulation SetupsIn the simulation, we consider a Stewart platform withthe leg connectors on the mobile platform locating arounda circle with radius 1 .0ma t b/prime1=,b/prime2=,b/prime3=,b/prime4=,b/prime5=, andb/prime6= in the platform coordinate, andthe leg connectors locating around a circle with radius 0 .75 mata1=,a2=,a3=,a4=,a5=,a6= on the ﬁxedbase.
+
+ For simplicity, the endeffector is put at the origin of theplatform coordinate (this can always be achieved by deﬁningthe platform coordinate with its origin at the endeffector position). In the situation for position tracking in 3D space, thetotal redundancy is 3 as the input dimension is 6 while theoutput dimension is 3.In the simulation, we use the tracking error, deﬁned as thedifference between the desired position and the real positionat time t, to measure the tracking performance in the circular(b) (a)Fig. 6. Tracking of an inﬁnitysign motion. (a) Trajectory of the endeffector. (b) Time history of the position tracking error.(a)(c)(b)(d)Fig. 7. Time evolution of the Stewart platform state variables in the case of inﬁnitysign motion tracking. (a) Orientation of the platform θ. (b) Position ofthe endeffector p. (c) Control action τ. (d) Leg length r.
+
+motion tracking, inﬁnitysign curve tracking, and the squaremotion tracking situation.
+
+B.
+
+ Circular TrajectoryIn this part, we consider the tracking of a smooth circular path using the proposed method.
+
+ The desired motionof the endeffector is to follow a circular trajectory at thespeed of 2 m/s. The desired circle trajectory is centered at with an radius of 0 .08 m, and has a revolute angle around the xaxis for 45 degrees. In the simulation,we simply choose /Lambda11and/Lambda12as an identity matrix.
+
+ Thevalue of the matrix A1is computed in real time accordingto (19). The matrix A2is chosen as A2= suchthat the position tracking requirements can be achieved.
+
+ Inpractice, the actuation speed of each leg is limited withina range due to the physical constraints of the actuators.
+
+To capture this property, we impose the constraint that thespeed tau is no greater than η> 0 in its absolute value,i.
+
+e.
+
+,|τi|≤ηfori=1,2,..., 6, which is equivalent to−η≤τi≤η.
+
+ Organizing to a matrix form yields an inequality in the form of ( 23d) with B=T,b=η112with 112representing a twelvedimensional vector with allentries equal one.
+
+ In the simulation, we set the speed boundη=0.25 m/s. The scaling factor /epsilon1is chosen as /epsilon1=0.01.(a)(b)(c)Fig. 8. Time evolution of the neural network state variables in the case ofinﬁnitysign motion tracking.
+
+ Neural network state variables (a) λ1,( b )λ2,and (c) μ.The tracking results are shown in Fig. 3by running the simulation for 2 s. As shown in Fig. 3(a), the endeffector successfultracks the circular path with a small tracking error [as shownin Fig. 3(b), where e(1),e(2), and e(3)denote the componentsof the position tracking error e, respectively, along the x,y, andzaxes of the base frame, the errors are less than 0 .015 m inamplitude].
+
+ The circularpath following experiments demonstrated the capability of the proposed dual neural network foronline resolving of kinematic redundancy of physically constrained manipulators.
+
+ Considering the input motion for the sixlegs, Fig. 4shows the time proﬁle of the Stewart platform statevariables, i.
+
+e.
+
+, the three Euler orientations of the mobile platform , the endeffector position , the speedof each leg  and the length of each leg .
+
+The attached moving frame to the upper platform is exactly inthe middle and the p(1)andp(2)coordinates started from zeroand the p(3)oscillates between almost 0.005 and −again.
+
+ From Fig. 4(a), it is observed that there is a smalldrift from the neutral position.
+
+ Although the presence of thisdrifting in orientation, the desired motion, which is given interms of endeffector positions, are still achived as shown inFig. 3. This in turn validates the robustness of the proposedscheme in the presence of orientation drifting.
+
+ The red dashedline in Fig. 4(c) depicts the bound ±0.25 (η=0.25), whichis the bound for the action speed.
+
+ It can be observed thatτconverges to the region  very fast and staysapproximately inside this region through the runtime, exceptsome short period  dueto the dynamics of the desired motion.
+
+ The neural networkstate variable are plotted in Fig. 5. From this ﬁgure, we canclearly observer the dynamic evolution of the neural activities.
+
+It is noteworthy that the neural activities do not converge to aconstant value.
+
+ Instead, they varies with time as they are utilized to compensate and regulate the dynamic motion of therobot.
+
+C.
+
+ InﬁnitySign TrajectoryIn this part, we consider the tracking of an inﬁnitysigncurve using the presented method.
+
+ Speciﬁcally, we considerthe tracking at a constant speed 1 m/s. The desired trajectoryis obtained by rotating a planar inﬁnitysign curve analytically expressed as x4=a2(x2−y2)with a=0.15 m aroundthexaxis for 45 degrees. The center of this curve locatesat .
+
+ The parameters, /Lambda11,/Lambda12,A1,A2,η,B,b,/epsilon1are chosen the same value as in the circular trajectory tracking situation.
+
+ Simulation results are obtained byrunning it for 2 s. As shown in Fig. 6, the endeffector successful tracks the desired path with a small tracking error.Fig. 7shows the time proﬁle of the Stewart platform statevariables, including the 3 Euler orientations of the mobileplatform , the endeffector position ,the speed of each leg  and the length of eachleg .
+
+ The neural network state variable are plotted in Fig. 8. Due to the dynamic changing of the neuralstates, the nonlinearity in the Stewart platform is successfullycompensated and an accurate tracking performance is thusachieved.
+
+D.
+
+ Square TrajectoryIn this section, we investigate the square trajectory tracking using the proposed approach.
+
+ Different from the case ofsmooth circular motion tracking, the desired square path isnonsmooth at the four corners and poses challenges to thecontroller on its realtime performance.
+
+ In the simulation, thedesired motion of the end effector is to follow a square trajectory, which is centered at  with the edgelength of 0 .08 m, at the desired speed 1 .0 m/s. The square hasa revolute angle around the xaxis for 60 degrees. We choosethe parameters /Lambda11and/Lambda12,A2andBthe same values as in(b) (a)Fig. 9. Tracking of a square motion. (a) Trajectory of the endeffector. (b) Time history of the position tracking error.(a)(c)(b)(d)Fig. 10. Time evolution of the Stewart platform state variables in the case of square motion tracking. (a) Orientation of the platform θ. (b) Position of theendeffector p. (c) Control action τ. (d) Leg length r.
+
+the situation for circular motion for simplicity.
+
+ The parameterA1is computed in real time according to ( 19). The speedlimit bound ηis chosen as η=0.6 m/s, and bis accordinglychosen as b=0.6112with 112. The scaling factor /epsilon1is chosen as /epsilon1=0.001. The tracking results are shown in Fig. 9by running the simulation for 2 s. As shown in Fig. 9(a), theendeffector successful tracks the square motion with a smalltracking error [as shown in Fig. 9(b), where e(1),e(2), ande(3)denote the components of the position tracking error e,respectively, along the x,y, and zaxes of the base frame, theerrors are less than 0 .006 m in amplitude].
+
+ Remarkably that theerror curves have jerks at time t=0.3,0.6,0.9,1.2,1.5,1.8s ,which is a result of the velocity switching from one direction to another one around the corner of the square.
+
+ Despectof the existence of the jerks, due to the nonlinear feedbackmechanism in the neural network, the errors reduces swiftlyto a very low value [much lower than 0 .001 m as shownin Fig. 3(b) after the jerk].
+
+ The above observation in turnvalidates the effectiveness of the proposed neural scheme indealing with nonsmooth tracking problem.
+
+ The realtime values on the Stewart platform states are shown in Fig. 10. Similarto the situation for circle tracking, the presence of drifting inorientations, as observed in Fig. 10(a), does not affect thetracking performance.
+
+ The endeffector position evolves without drifting , and remains a very small error fromits desired trajectory . Fig. 3(c) shows the time proﬁle of the control action, which is the speed of each leg.
+
+It is clear that the control action is approximately regulatedinside the range [ −0.6,0.6], which in turn validates the effectof the proposed solution in fulﬁlling the inequality regulation.
+
+ The dynamic evolution of the neural activities are shownin Fig. 11.(a)(b)(c)Fig. 11. Time evolution of the neural network state variables in thecase of square motion tracking.
+
+ Neural network state variables (a) λ1,(b)λ2,a n d( c ) μ.VIII. C ONCLUSIONIn this paper, a dynamic neural network is designed to solvethe redundancy resolution problem of Stewart platforms.
+
+ Thephysical constraints and optimization criteria are rigorouslymodeled as a constrained quadratic programming problem.
+
+To solve this problem in real time, a recurrent neural network is proposed to reach the equality constraints, inequalityconstraints, and optimality criteria simultaneously.
+
+ Rigoroustheoretical proof are supplied to verify the convergence of theproposed model.
+
+ Simulation results validate the effectivenessof the proposed solution.
+
+REFERENCES S.
+
+ Liu, W.
+
+ Li, Y .
+
+ Du, and L.
+
+ Fang, “Forward kinematics of the Stewartplatform using hybrid immune genetic algorithm,” in Proc.
+
+ IEEE Int.
+
+Conf.
+
+ Mechatronics Autom.
+
+ , Luoyang, China, Jun. 2006, pp. 2330–2335. O. Masory and W.
+
+ Jian, “Workspace evaluation of Stewart platforms,”Adv.
+
+ Robot. , vol. 9, no. 4, pp. 443–461, 1994. Q. Liu, Q.
+
+ He, and Z.
+
+ Shi, “Extreme support vector machine classiﬁer,”inAdvances in Knowledge Discovery and Data Mining (LCNS 5012),T. Washio, E.
+
+ Suzuki, K.
+
+ Ting, and A.
+
+ Inokuchi, Eds.
+
+ Berlin, Germany:Springer, 2008, pp. 222–233. Y . Nakamura and H.
+
+ Hanafusam, “Inverse kinematics solutions withsingularity robustness for robot manipulator control,” J.
+
+ Dyn.
+
+ Syst.
+
+ Meas.
+
+Control , vol. 108, no. 3, pp. 163–171, 1986. G. Thomas and M.
+
+ John, “Inverse dynamic analysis of parallel manipulators with full mobility,” Mech.
+
+ Mach.
+
+ Theory , vol. 38, no. 6,pp. 549–562, 2003. A. Yorukoglu and E.
+
+ Altug, “Estimation of unbalanced loads inwashing machines using fuzzy neural networks,” IEEE/ASME Trans.
+
+Mechatronics , vol. 18, no. 3, pp. 1182–1190, Jun. 2013. N. Nikdel, P.
+
+ Nikdel, M.
+
+ A.
+
+ Badamchizadeh, and I.
+
+ Hassanzadeh, “Usingneural network model predictive control for controlling shape memoryalloybased manipulator,” IEEE Trans.
+
+ Ind.
+
+ Electron. , vol. 61, no. 3,pp. 1394–1401, Mar. 2014. Y . Zhang, B.
+
+ Mu, and H.
+
+ Zheng, “Link between and comparison andcombination of Zhang neural network and quasiNewton BFGS methodfor timevarying quadratic minimization,” IEEE Trans.
+
+ Cybern. , vol. 43,no. 2, pp. 490–503, Apr. 2013. Y . Xia, T.
+
+ Chen, and J.
+
+ Shan, “A novel iterative method for computing generalized inverse,” Neural Comput. , vol. 26, no. 2, pp. 449–465,Feb. 2014. L. Xiao and Y .
+
+ Zhang, “A new performance index for the repetitivemotion of mobile manipulators,” IEEE Trans.
+
+ Cybern. , vol. 44, no. 2,pp. 280–292, Feb. 2014. S. Li, Z.
+
+ You, H.
+
+ Guo, X.
+
+ Luo, and Z.
+
+ Zhao, “Inversefree extreme learning machine with optimal information updating,” IEEE Trans.
+
+ Cybern. ,DOI: 10.1109/TCYB.2015.2434841. L. Jin and Y .
+
+ Zhang, “G2type SRMPC scheme for synchronous manipulation of two redundant robot arms,” IEEE Trans.
+
+ Cybern. , vol. 45,no. 2, pp. 153–164, Feb. 2015. M. Jose, V .
+
+ Santiba, R.
+
+ Soto, and M.
+
+ A.
+
+ Llama, “Fuzzy selftuning PIDsemiglobal regulator for robot manipulators,” IEEE Trans.
+
+ Ind.
+
+ Electron. ,vol. 59, no. 6, pp. 2709–2717, Jun. 2012. S. Nasri, F.
+
+ Piltan, S.
+
+ Haghighi, I.
+
+ Nazari, and S.
+
+ Siamak, “Artiﬁcialcontrol of puma robot manipulator: Areview of fuzzy inference engineand application to classical controller,” Int.
+
+ J.
+
+ Robot.
+
+ Autom. ,v o l .2 ,no. 5, pp. 406–429, 2011. R. Köker, “A genetic algorithm approach to a neuralnetworkbasedinverse kinematics solution of robotic manipulators based on errorminimization,” Inf.
+
+ Sci. , vol. 222, pp. 528–543, Feb. 2013. H. Vicente, H.
+
+ Ayala, and D.
+
+ S.
+
+ Coelho, “Tuning of PID controller basedon a multiobjective genetic algorithm applied to a robotic manipulator,”Expert Syst.
+
+ Appl. , vol. 39, no. 10, pp. 8968–8974, 2012. Z. P. Wang, T.
+
+ Zhou, Y .
+
+ Mao, and Q.
+
+ J.
+
+ Chen, “Adaptive recurrentneural network control of uncertain constrained nonholonomic mobilemanipulators,” Int.
+
+ J.
+
+ Syst.
+
+ Sci. , vol. 45, no. 2, pp. 133–144, 2014. Y . Zhang, S.
+
+ S.
+
+ Ge, and T.
+
+ Lee, “A uniﬁed quadraticprogrammingbaseddynamical system approach to joint torque optimization of physically constrained redundant manipulators,” IEEE Trans.
+
+ Syst.
+
+, Man,C y b e r n .
+
+B ,C y b e r n . , vol. 34, no. 5, pp. 2126–2132, Oct. 2004. Y . Zhang, W.
+
+ Jun, and Y .
+
+ Xia, “A dual neural network for redundancyresolution of kinematically redundant manipulators subject to joint limitsand joint velocity limits,” IEEE Trans.
+
+ Neural Netw. , vol. 14, no. 3,pp. 658–667, May 2003. Y . Xia and W.
+
+ Jun, “A dual neural network for kinematic control ofredundant robot manipulators,” IEEE Trans.
+
+ Syst.
+
+, Man, Cybern.
+
+ B,Cybern. , vol. 31, no. 1, pp. 147–154, Feb. 2001. S. Li, S.
+
+ Chen, B.
+
+ Liu, Y .
+
+ Li, and Y .
+
+ Liang, “Decentralized kinematiccontrol of a class of collaborative redundant manipulators via recurrentneural networks,” Neurocomputing , vol. 91, pp. 1–10, Aug. 2012. S. Li, H.
+
+ Cui, and Y .
+
+ Li, “Decentralized control of collaborative redundant manipulators with partial command coverage via locally connectedrecurrent neural networks,” Neural Comput.
+
+ Appl. , vol. 23, nos. 3–4,pp. 1051–1060, 2013. S. Liu and J.
+
+ Wang, “A simpliﬁed dual neural network for quadraticprogramming with its KWTA application,” IEEE Trans.
+
+ Neural Netw. ,vol. 17, no. 6, pp. 1500–1510, Nov. 2006. Z. Guo, J.
+
+ Wang, and Z.
+
+ Yan, “Global exponential dissipativity andstabilization of memristorbased recurrent neural networks with timevarying delays,” Neural Netw. , vol. 48, pp. 158–172, Dec. 2013. C. Zheng and J.
+
+ Cao, “Robust synchronization of coupled neural networks with mixed delays and uncertain parameters by intermittentpinning control,” Neurocomputing , vol. 141, pp. 153–159, Oct. 2014. H. Zhang, Z.
+
+ Wang, and D.
+
+ Liu, “A comprehensive review of stability analysis of continuoustime recurrent neural networks,” IEEE Trans.
+
+Neural Netw.
+
+ Learn.
+
+ Syst. , vol. 25, no. 7, pp. 1229–1262, Jul. 2014. S. Zhang, Y .
+
+ Xia, and W.
+
+ Zheng, “A complexvalued neural dynamicaloptimization approach and its stability analysis,” Neural Netw. , vol. 61,pp. 59–67, Jan. 2015. Y . Xia and H.
+
+ Leung, “A fast learning algorithm for blind data fusionusing a novel L_2norm estimation,” IEEE Sensors J. , vol. 14, no. 3,pp. 666–672, Mar. 2014. Y . Xia, C.
+
+ Sun, and W.
+
+ Zheng, “Discretetime neural network for fastsolving large linear L1estimation problems and its application to imagerestoration,” IEEE Trans.
+
+ Neural Netw.
+
+ Learn.
+
+ Syst. , vol. 23, no. 5,pp. 812–820, May 2012. E. D. Sontag, Mathematical Control Theory: Deterministic FiniteDimensional Systems , vol. 6. New York, NY , USA: Springer, 1998. S. Boyd and L.
+
+ Vandenberghe, Convex Optimization .
+
+N e wY o r k ,N Y ,USA: Cambridge Univ.
+
+ Press, Mar. 2004. M. P. Kennedy and L.
+
+ O.
+
+ Chua, “Neural networks for nonlinear programming,” IEEE Trans.
+
+ Circuits Syst. , vol. 35, no. 5, pp. 554–562,May 1988. Y . S. Xia, “Further results on global convergence and stability of globallyprojected dynamical systems,” J.
+
+ Optim.
+
+ Theory Appl. , vol. 122, no. 3,pp. 627–649, 2004. Y . Xia, G.
+
+ Feng, and J.
+
+ Wang, “A primaldual neural network for onlineresolving constrained kinematic redundancy in robot motion control,”IEEE Trans.
+
+ Syst.
+
+, Man, Cybern.
+
+ B, Cybern. , vol. 35, no. 1, pp. 54–64,Feb. 2005. D. Zhang and J.
+
+ Lei, “Kinematic analysis of a novel 3DOF actuationredundant parallel manipulator using artiﬁcial intelligence approach,”Robot.
+
+ Comput.
+
+Integr.
+
+ Manuf. , vol. 27, no. 1, pp. 157–163, 2011. S. Assal, “Selforganizing approach for learning the forward kinematicmultiple solutions of parallel manipulators,” Robotica , vol. 30, no. 6,pp. 951–961, 2012. S. Chen and L.
+
+ Fu, “Output feedback sliding mode control for a Stewartplatform with a nonlinear observerbased forward kinematics solution,” IEEE Trans.
+
+ Control Syst.
+
+ Technol. , vol. 21, no. 1, pp. 176–185,Jan. 2013. G. Liu, Z.
+
+ Qu, X.
+
+ Liu, and J.
+
+ Han, “Tracking performance improvements of an electrohydraulic Gough–Stewart platform using a fuzzyincremental controller,” Ind.
+
+ Robot Int.
+
+ J. , vol. 41, no. 2, pp. 225–235,2014. was born in Hyderabad,India.
+
+ He received the B.
+
+E.
+
+ degree in informationtechnology from Osmania University, Hyderabad, in2007, the M.S.
+
+ degree in research of verylargescale integration and embedded systems from theInternational Institute of Information Technology,Hyderabad, in 2009, and the M.
+
+S.
+
+ degree in electrical engineering from the King Abdullah Universityof Science and Technology, Thuwal, Saudi Arabia.
+
+He is currently a Doctorate Research Scholar withHong Kong Polytechnic University, Hong Kong.
+
+ Hiscurrent research interests includes routing in wireless sensor networks, performance evaluation of neural networks, Ashton Raggatt McDougall developmentfor multipleinput and multipleoutput systems, particle swarm optimization,and pattern recognition.Shuai Li (M’14) received the B.
+
+E.
+
+ degree inprecision mechanical engineering from the HefeiUniversity of Technology, Hefei, China, in 2005,the M.E. degree in automatic control engineeringfrom the University of Science and Technology ofChina, Hefei, in 2008, and the Ph.
+
+D.
+
+ in electricaland computer engineering from the Stevens Instituteof Technology, Hoboken, NJ, USA, in 2014.He is a Research Assistant Professor withHong Kong Polytechnic University, Hong Kong.
+
+ Hiscurrent research interests include distributed estimation, optimization and control of networked systems, kinematic and dynamicanalysis of robotic systems, and neural networks.
+
+Dr.
+
+ Li is currently on the editorial board of the Neural Computing andApplications and the International Journal of Distributed Sensor Networks .
